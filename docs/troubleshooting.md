@@ -1,5 +1,11 @@
 # B3-1 트러블슈팅 보고서
 
+## 사례 목록
+
+| 사례 | 제목 | 이미지 폴더 | 상태 |
+| --- | --- | --- | --- |
+| 1 | 보안 그룹을 만들 수 없음 (권한 부족) | [01-security-group-permission](../img/troubleshooting/01-security-group-permission/) | 미해결 |
+
 ## 사례 1. 보안 그룹을 만들 수 없음 (권한 부족)
 
 > 보안 그룹: 서버 앞에 세우는 문지기. 어떤 접속을 들여보낼지 정함.
@@ -13,7 +19,7 @@
   - 원격 접속(SSH, 22번)은 내 IP만 허용
   - 서버에서 밖으로 나가는 통신은 모두 허용
 
-  ![보안 그룹 입력 화면](../img/troubleshooting-0.png)
+  ![보안 그룹 입력 화면](../img/troubleshooting/01-security-group-permission/1a-create-form.masked.png)
 
 - 무슨 일이 생겼나: 만들기 버튼을 누르자 아래 오류가 나왔음.
 
@@ -25,7 +31,7 @@
 
   쉽게 말해 "이 사용자에게는 보안 그룹을 만들 허가가 없다"는 뜻임.
 
-  ![권한 오류 화면](../img/troubleshooting-1.png)
+  ![권한 오류 화면](../img/troubleshooting/01-security-group-permission/1b-create-error.masked.png)
 
 ## 2. 원인 추측
 
