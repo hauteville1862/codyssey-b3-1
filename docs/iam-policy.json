@@ -1,0 +1,162 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ReadOnlyEc2InSeoul",
+            "Effect": "Allow",
+            "Action": "ec2:Describe*",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:RequestedRegion": "ap-northeast-2"
+                }
+            }
+        },
+        {
+            "Sid": "CreateNetworkResources",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateVpc",
+                "ec2:CreateSubnet",
+                "ec2:CreateInternetGateway",
+                "ec2:AttachInternetGateway",
+                "ec2:CreateRouteTable",
+                "ec2:CreateRoute",
+                "ec2:AssociateRouteTable"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:RequestedRegion": "ap-northeast-2"
+                }
+            }
+        },
+        {
+            "Sid": "CreateSecurityGroupInB31Vpc",
+            "Effect": "Allow",
+            "Action": "ec2:CreateSecurityGroup",
+            "Resource": [
+                "arn:aws:ec2:ap-northeast-2:*:vpc/vpc-01c56407f06fa7ab6",
+                "arn:aws:ec2:ap-northeast-2:*:security-group/*"
+            ]
+        },
+        {
+            "Sid": "ManageSecurityGroupsInB31Vpc",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:AuthorizeSecurityGroupEgress",
+                "ec2:RevokeSecurityGroupIngress",
+                "ec2:RevokeSecurityGroupEgress",
+                "ec2:DeleteSecurityGroup"
+            ],
+            "Resource": "arn:aws:ec2:ap-northeast-2:*:security-group/*",
+            "Condition": {
+                "ArnEquals": {
+                    "ec2:Vpc": "arn:aws:ec2:ap-northeast-2:*:vpc/vpc-01c56407f06fa7ab6"
+                }
+            }
+        },
+        {
+            "Sid": "ManageKeyPairs",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:CreateKeyPair",
+                "ec2:DeleteKeyPair"
+            ],
+            "Resource": "arn:aws:ec2:ap-northeast-2:*:key-pair/*"
+        },
+        {
+            "Sid": "RunMicroInstanceOnly",
+            "Effect": "Allow",
+            "Action": "ec2:RunInstances",
+            "Resource": "arn:aws:ec2:ap-northeast-2:*:instance/*",
+            "Condition": {
+                "StringEquals": {
+                    "ec2:InstanceType": [
+                        "t2.micro",
+                        "t3.micro"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "RunInstancesSmallVolumeOnly",
+            "Effect": "Allow",
+            "Action": "ec2:RunInstances",
+            "Resource": "arn:aws:ec2:ap-northeast-2:*:volume/*",
+            "Condition": {
+                "NumericLessThanEquals": {
+                    "ec2:VolumeSize": "10"
+                }
+            }
+        },
+        {
+            "Sid": "RunInstancesInB31Subnet",
+            "Effect": "Allow",
+            "Action": "ec2:RunInstances",
+            "Resource": [
+                "arn:aws:ec2:ap-northeast-2:*:subnet/subnet-0ff9f8733f5459e16",
+                "arn:aws:ec2:ap-northeast-2:*:network-interface/*",
+                "arn:aws:ec2:ap-northeast-2:*:security-group/*",
+                "arn:aws:ec2:ap-northeast-2:*:key-pair/*",
+                "arn:aws:ec2:ap-northeast-2::image/*"
+            ]
+        },
+        {
+            "Sid": "ManageInstanceLifecycle",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:StartInstances",
+                "ec2:StopInstances",
+                "ec2:TerminateInstances"
+            ],
+            "Resource": "arn:aws:ec2:ap-northeast-2:*:instance/*"
+        },
+        {
+            "Sid": "TagResourcesAtCreation",
+            "Effect": "Allow",
+            "Action": "ec2:CreateTags",
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "aws:RequestedRegion": "ap-northeast-2",
+                    "ec2:CreateAction": [
+                        "CreateVpc",
+                        "CreateSubnet",
+                        "CreateInternetGateway",
+                        "CreateRouteTable",
+                        "CreateSecurityGroup",
+                        "CreateKeyPair",
+                        "RunInstances"
+                    ]
+                }
+            }
+        },
+        {
+            "Sid": "CleanupB31ResourcesOnly",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DeleteSubnet",
+                "ec2:DeleteRoute",
+                "ec2:DeleteRouteTable",
+                "ec2:DisassociateRouteTable",
+                "ec2:DetachInternetGateway",
+                "ec2:DeleteInternetGateway",
+                "ec2:DeleteVpc"
+            ],
+            "Resource": [
+                "arn:aws:ec2:ap-northeast-2:*:vpc/vpc-01c56407f06fa7ab6",
+                "arn:aws:ec2:ap-northeast-2:*:subnet/subnet-0ff9f8733f5459e16",
+                "arn:aws:ec2:ap-northeast-2:*:route-table/rtb-0e8fd4f4d57971443",
+                "arn:aws:ec2:ap-northeast-2:*:internet-gateway/igw-09f0393a13442868a"
+            ]
+        },
+        {
+            "Sid": "CleanupLeftoverVolumes",
+            "Effect": "Allow",
+            "Action": "ec2:DeleteVolume",
+            "Resource": "arn:aws:ec2:ap-northeast-2:*:volume/*"
+        }
+    ]
+}
