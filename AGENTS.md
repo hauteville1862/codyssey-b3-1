@@ -10,8 +10,7 @@ Before mission-specific work, read:
 1. `../../../vault/AGENTS.md`
 2. `../../../vault/SOURCES.md`
 3. `../../../vault/PRINCIPLES.md`
-4. `../../../vault/skills/codyssey-missions/SKILL.md`
-5. The canonical B3-1 mission detail and rubric identified by the shared vault.
+4. The canonical B3-1 mission detail and rubric identified by the shared vault.
 
 ## Boundaries
 
