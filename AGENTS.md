@@ -3,14 +3,14 @@
 ## Shared Harness
 
 The shared Codyssey harness is located at:
-`../../../codyssey-missions/`
+`../../../vault/`
 
 Before mission-specific work, read:
 
-1. `../../../codyssey-missions/AGENTS.md`
-2. `../../../codyssey-missions/SOURCES.md`
-3. `../../../codyssey-missions/PRINCIPLES.md`
-4. `../../../codyssey-missions/skills/codyssey-missions/SKILL.md`
+1. `../../../vault/AGENTS.md`
+2. `../../../vault/SOURCES.md`
+3. `../../../vault/PRINCIPLES.md`
+4. `../../../vault/skills/codyssey-missions/SKILL.md`
 5. The canonical B3-1 mission detail and rubric identified by the shared vault.
 
 ## Boundaries
