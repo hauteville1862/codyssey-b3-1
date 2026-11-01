@@ -71,9 +71,7 @@ location = /health {
 
 ### A. 브라우저 접속
 
-Safari에서 `http://43.203.121.126`을 열어 Nginx 기본 페이지를 확인함.
-
-![브라우저 접속 결과](img/evidence/e04-browser-access.png)
+Safari에서 `http://43.203.121.126`을 열어 Nginx 기본 페이지를 확인함. 화면은 [항목 1 (E01~E05)](docs/rubric/항목%201%20%28E01~E05%29.md#b3-1-e04)에 있음.
 
 ### 서버 안에서 확인한 것
 
@@ -84,9 +82,7 @@ Safari에서 `http://43.203.121.126`을 열어 Nginx 기본 페이지를 확인�
 | 서버 내부 웹 응답 | `curl -I http://localhost` | `HTTP/1.1 200 OK` |
 | 서버에서 밖으로 나가는 통신 | `curl -I https://example.com` | `HTTP/2 200` |
 
-![SSH 접속 화면](img/evidence/e02-ssh-connected.png)
-
-![서버 안에서 확인한 결과](img/evidence/e02-server-checks.png)
+SSH 접속 화면과 서버 안에서 확인한 화면은 [항목 1 (E01~E05)](docs/rubric/항목%201%20%28E01~E05%29.md#b3-1-e02)에 있음.
 
 ## 3. 보안 및 권한 관리
 
@@ -98,7 +94,7 @@ Safari에서 `http://43.203.121.126`을 열어 Nginx 기본 페이지를 확인�
 | 들어오는 규칙 | TCP 22 (SSH) | 내 공인 IP 한 개 (`/32`) | 서버 관리는 나만 해야 함. IP 값은 공개하지 않음 |
 | 나가는 규칙 | 모든 트래픽 | `0.0.0.0/0` | Nginx 설치, `curl https://example.com` 등 서버가 밖으로 나가는 통신에 필요 |
 
-![보안 그룹 인바운드 규칙 (계정 ID와 내 IP는 가림)](img/evidence/e03-inbound-rules.png)
+인바운드 규칙 화면은 [항목 1 (E01~E05)](docs/rubric/항목%201%20%28E01~E05%29.md#b3-1-e03)에 있음.
 
 - 그 밖의 포트(HTTPS 443, DB 포트 등)는 쓰지 않으므로 열지 않았음.
 - `0.0.0.0/0`에 모든 포트(0-65535)를 여는 규칙은 만들지 않았음.
