@@ -1,24 +1,5 @@
-# Codyssey B3-1 — Agent Guide
+# 코디세이 B3-1 — 에이전트 입구
 
-## Shared Harness
-
-The shared Codyssey harness is located at:
-`../../../vault/`
-
-Before mission-specific work, read:
-
-1. `../../../vault/AGENTS.md`
-2. `../../../vault/SOURCES.md`
-3. `../../../vault/PRINCIPLES.md`
-4. The canonical B3-1 mission detail and rubric identified by the shared vault.
-
-## Boundaries
-
-- This repository is the implementation workspace for B3-1.
-- The shared harness is reference-only unless separately authorized.
-- Read only the documents needed for the current task.
-- Do not modify other mission repositories.
-- Repository instructions do not grant execution approval.
-- Git publication and AWS resource changes require appropriate authorization.
-- Keep implementation, observed evidence, explanation, and completion distinct.
-- If referenced files cannot be accessed, report that instead of guessing.
+- 미션: B3-1
+- 먼저 `../../harness/AGENTS.md`를 읽고 그 안내를 따른다. 읽을 수 없으면 추측하지 말고 보고한다.
+- 스크린샷을 추가하거나 고칠 때는 `img/AGENTS.md`를 읽는다.
