@@ -3,3 +3,7 @@
 # 트러블슈팅 스크린샷: 가린 파일(*.masked.png)만 커밋됨
 img/troubleshooting/**/*.png
 !img/troubleshooting/**/*.masked.png
+
+# 개인 키: 절대 커밋하지 않음
+.ssh/
+*.pem
