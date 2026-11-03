@@ -5,7 +5,7 @@ import CoreText
 import ImageIO
 import UniformTypeIdentifiers
 
-let W = 1620, H = 900
+let W = 1260, H = 420
 let ctx = CGContext(data: nil, width: W, height: H, bitsPerComponent: 8, bytesPerRow: 0,
   space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
 ctx.translateBy(x: 0, y: CGFloat(H)); ctx.scaleBy(x: 1, y: -1)   // 왼쪽 위 원점
@@ -50,76 +50,40 @@ func path(_ pts: [CGPoint], _ color: CGColor, dashed: Bool = false, head: Bool =
   ctx.closePath(); ctx.fillPath()
 }
 
-func internet(_ x: CGFloat, _ cy: CGFloat) {
-  box(x, cy - 40, 140, 80, blue, fill: c(0.93, 0.96, 1.0))
-  text("인터넷", x + 70, cy - 18, 28, bold: true, color: blue, center: true)
+func flow(_ x1: CGFloat, _ y1: CGFloat, _ x2: CGFloat, _ y2: CGFloat) {
+  path([CGPoint(x: x1, y: y1), CGPoint(x: x2, y: y2)], blue, head: true)
 }
 
-func igw(_ cx: CGFloat, _ cy: CGFloat) {
-  box(cx - 130, cy - 60, 260, 120, purple, fill: c(0.97, 0.95, 1.0))
-  text("Internet Gateway", cx, cy - 38, 26, bold: true, color: purple, center: true)
-  text("b3-1-igw", cx, cy + 4, 22, color: gray, center: true)
-}
+// 한 줄로 읽음: 인터넷 ⇄ IGW ⇄ 서브넷. 위 줄은 들어올 때(→), 아래 줄은 나갈 때(←)
+let inY: CGFloat = 240, outY: CGFloat = 280
 
-func subnet(_ x: CGFloat, _ y: CGFloat, _ h: CGFloat) {
-  box(x, y, 360, h, green, fill: c(0.95, 0.99, 0.95))
-  text("Public Subnet", x + 24, y + 16, 26, bold: true, color: green)
-  text("b3-1-public-subnet", x + 24, y + 56, 22)
-  text("10.0.1.0/24", x + 24, y + 88, 22, color: gray)
-}
+box(400, 40, 820, 340, purple)
+text("VPC", 430, 56, 24, bold: true, color: purple)
 
-func vpc(_ x: CGFloat, _ y: CGFloat, _ h: CGFloat) {
-  box(x, y, 1190, h, purple)
-  text("VPC  b3-1-vpc  ·  10.0.0.0/16", x + 30, y + 16, 24, bold: true, color: purple)
-}
+box(40, 220, 140, 80, blue, fill: c(0.93, 0.96, 1.0))
+text("인터넷", 110, 246, 24, bold: true, color: blue, center: true)
 
-// 제목
-text("E01 구조: VPC · Public Subnet · Internet Gateway · Route Table", 60, 30, 30, bold: true)
+box(280, 200, 240, 120, purple, fill: c(0.97, 0.95, 1.0))   // VPC 왼쪽 경계에 걸침
+text("Internet Gateway", 400, 246, 24, bold: true, color: purple, center: true)
 
-// ① 들어올 때: 인터넷 → IGW → 서브넷 (모든 화살표가 오른쪽을 향함)
-text("① 들어올 때 (요청)", 40, 100, 24, bold: true)
-let y1: CGFloat = 290
-vpc(370, 150, 250)
-internet(40, y1)
-igw(370, y1)
-subnet(1150, y1 - 60, 120)
-path([CGPoint(x: 180, y: y1), CGPoint(x: 240, y: y1)], blue, head: true)
-path([CGPoint(x: 500, y: y1), CGPoint(x: 1150, y: y1)], blue, head: true)
+box(860, 200, 320, 120, green, fill: c(0.95, 0.99, 0.95))
+text("Public Subnet", 1020, 246, 24, bold: true, color: green, center: true)
 
-// ② 나갈 때: 서브넷 → IGW → 인터넷. 라우팅 테이블의 0.0.0.0/0 줄이 IGW를 가리킴
-text("② 나갈 때 (응답)", 40, 430, 24, bold: true)
-let y2: CGFloat = 780
-vpc(60, 475, 380)
-subnet(110, 580, 240)
-igw(1250, y2)
-internet(1440, y2)
-path([CGPoint(x: 470, y: y2), CGPoint(x: 1120, y: y2)], blue, head: true)
-path([CGPoint(x: 1380, y: y2), CGPoint(x: 1440, y: y2)], blue, head: true)
+flow(180, inY, 280, inY); flow(520, inY, 860, inY)
+flow(860, outY, 520, outY); flow(280, outY, 180, outY)
+text("들어올 때", 690, 204, 20, color: gray, center: true)
+text("나갈 때", 690, 292, 20, color: gray, center: true)
 
-// Route Table (흐름선 위)
-box(570, 520, 420, 190, ink, fill: c(0.97, 0.97, 0.97), lw: 2)
-text("Route Table", 594, 534, 24, bold: true)
-text("b3-1-public-rt", 744, 538, 20, color: gray)
-let tx: CGFloat = 594, tw: CGFloat = 372, ty: CGFloat = 574, rh: CGFloat = 40, split: CGFloat = 770
-ctx.setFillColor(c(0.95, 0.92, 1.0)); ctx.fill(CGRect(x: tx, y: ty + rh * 2, width: tw, height: rh))
-ctx.setStrokeColor(gray); ctx.setLineWidth(1.5)
-for i in 0...3 { ctx.move(to: CGPoint(x: tx, y: ty + rh * CGFloat(i))); ctx.addLine(to: CGPoint(x: tx + tw, y: ty + rh * CGFloat(i))) }
-for x in [tx, split, tx + tw] { ctx.move(to: CGPoint(x: x, y: ty)); ctx.addLine(to: CGPoint(x: x, y: ty + rh * 3)) }
-ctx.strokePath()
-text("대상", tx + 16, ty + 8, 20, bold: true)
-text("타깃", split + 16, ty + 8, 20, bold: true)
-text("10.0.0.0/16", tx + 16, ty + rh + 8, 20)
-text("local", split + 16, ty + rh + 8, 20)
-text("0.0.0.0/0", tx + 16, ty + rh * 2 + 8, 20, bold: true, color: purple)
-text("b3-1-igw", split + 16, ty + rh * 2 + 8, 20, bold: true, color: purple)
+// Route Table: 0.0.0.0/0 줄이 IGW를 가리킴
+box(880, 70, 280, 80, ink, fill: c(0.97, 0.97, 0.97), lw: 2)
+text("Route Table", 900, 80, 22, bold: true)
+ctx.setFillColor(c(0.95, 0.92, 1.0)); ctx.fill(CGRect(x: 900, y: 110, width: 240, height: 30))
+text("0.0.0.0/0 → IGW", 910, 113, 20, bold: true, color: purple)
+path([CGPoint(x: 900, y: 125), CGPoint(x: 460, y: 125), CGPoint(x: 460, y: 200)], purple, head: true)
 
-// 0.0.0.0/0 줄 → IGW
-let ry = ty + rh * 2 + rh / 2
-path([CGPoint(x: tx + tw, y: ry), CGPoint(x: 1200, y: ry), CGPoint(x: 1200, y: y2 - 60)], purple, head: true)
-
-// 서브넷 ↔ 라우팅 테이블 연결
-path([CGPoint(x: 470, y: 620), CGPoint(x: 570, y: 620)], green, dashed: true)
-text("연결", 520, 584, 20, color: gray, center: true)
+// 라우팅 테이블 ↔ 서브넷 연결
+path([CGPoint(x: 1020, y: 150), CGPoint(x: 1020, y: 200)], green, dashed: true)
+text("연결", 1032, 162, 18, color: gray)
 
 let out = CGImageDestinationCreateWithURL(URL(fileURLWithPath: CommandLine.arguments[1]) as CFURL, UTType.png.identifier as CFString, 1, nil)!
 CGImageDestinationAddImage(out, ctx.makeImage()!, nil)
