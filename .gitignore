@@ -7,3 +7,6 @@ img/troubleshooting/**/*.png
 # 개인 키: 절대 커밋하지 않음
 .ssh/
 *.pem
+
+# macOS가 폴더마다 만드는 파일
+.DS_Store
