@@ -10,3 +10,7 @@ img/troubleshooting/**/*.png
 
 # macOS가 폴더마다 만드는 파일
 .DS_Store
+
+# 내보낸 대화 기록: 계정 ID가 들어 있어 커밋하지 않음 (규칙: conversations/AGENTS.md)
+/conversations/*
+!/conversations/AGENTS.md
