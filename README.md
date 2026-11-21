@@ -4,6 +4,8 @@
 
 ![AWS 아키텍처 다이어그램](docs/architecture.png)
 
+요청이 들어가고 답장이 나오는 길을 단계별로 넘겨 보고, 부품을 하나씩 꺼서 어디서 끊기는지 확인할 수 있는 페이지: [요청과 응답의 길](https://claude.ai/artifact/PX4CxLyPBCWNfugkea5wC2)
+
 ### 네트워크 구성 설명
 
 | 구성 요소 | 이름 | ID / 값 |
